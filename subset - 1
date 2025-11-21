@@ -1,0 +1,109 @@
+Problem Statement
+
+Lucy has a set of integers, and she is interested in finding out how many subsets from this set sum up to a specific target number. The program should efficiently calculate the number of subsets that sum up to a given target sum. Additionally, after finding the count of subsets, a small mathematical operation is performed on the result:
+
+If the count of subsets is even, it should be multiplied by 3.
+If the count is odd, 7 should be added to the count.
+
+
+Your task is to help Lucy implement the solution and perform the required operation on the result.
+
+
+
+Example:
+
+Input
+
+4
+
+1 3 5 2
+
+6
+
+Output
+
+2
+
+Explanation:
+
+Subset1= {1,5}, Subset2= {1,3,2}. 1+5 = 6, 1+3+2 = 6. 
+
+The obtained result is even, so multiply it by 3 (2 * 3 = 6)
+
+Input format :
+The first line of input consists of a single integer n, representing the number of elements in the set.
+
+The second line consists of an integer, representing the elements of the set. These integers are space-separated.
+
+The third line consists of a single integer, representing the target sum for which the subsets need to sum up.
+
+Output format :
+The first line of output prints a single integer that represents the number of subsets whose sum equals the target sum.
+
+The second line prints the result after performing the operation based on whether the subset count is even or odd.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+In this scenario, the given test cases will fall under the following constraints:
+
+1 ≤ n ≤ 10
+
+1 ≤ elements of the set ≤ 100
+
+Sample test cases :
+Input 1 :
+4
+1 3 5 2
+6
+Output 1 :
+2
+6
+Input 2 :
+6
+10 20 30 40 50 100
+70
+Output 2 :
+3
+10
+Input 3 :
+3
+1 2 1
+3
+Output 3 :
+2
+6
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<int>ans;
+bool found=false;
+void find(vector<int> arr,int s,int n,int t){
+    if(t==0 && ans.size()==2) {
+        found=true;
+        return;
+    }
+    if(t<0 || ans.size()>=2 || s>=n) return;
+    for(int i=s; i<n; i++) {
+        ans.push_back(arr[i]);
+        find(arr,i+1,n,t-arr[i]);
+        if(found) return;
+        ans.pop_back();
+    }
+}
+int main(){
+    int n;
+    cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<n; i++) {
+        cin>>arr[i];
+    }
+    int t;
+    cin>>t;
+    find(arr,0,n,t);
+    cout<<c<<endl;
+    if(c%2==0) cout<<c*3;
+    else cout<<c+7;
+}
