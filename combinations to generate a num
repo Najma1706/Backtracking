@@ -1,0 +1,74 @@
+Problem Statement
+Imagine you're helping a friend plan gift packages with a total budget of N. Your task is to find all unique ways to spend the entire budget on different combinations of gift prices, ensuring no combination is repeated by rearranging the prices.
+
+Note:
+
+By unique it means that no matter that no other composition can be expressed as a permutation of the generated composition. For eg. [1,2,1] and [1, 1, 2] are not unique.
+You need to print all combinations in non-decreasing order for eg. [1, 2, 1] or [1,1,2] will be printed as [1,1,2].
+The order of printing all the combinations should be printed in lexicographical order.
+
+
+Use backtracking to solve the given problem.
+
+Input format :
+The input consists of a single integer, n, which represents the number to be broken down.
+
+Output format :
+The output consists of a list of lists, where each inner list represents a possible breakdown of the given number.
+
+Each breakdown is represented as a list of integers that add up to the given number.
+
+The breakdowns are printed in lexicographic order.
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+In this scenario, the given test cases will fall under the following constraints:
+
+1 ≤ N ≤ 25
+
+Sample test cases :
+Input 1 :
+1
+Output 1 :
+[[1]]
+Input 2 :
+4
+Output 2 :
+[[1, 1, 1, 1], [1, 1, 2], [1, 3], [2, 2], [4]]
+Input 3 :
+3
+Output 3 :
+[[1, 1, 1], [1, 2], [3]]
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<int> ans;
+vector<vector<int>> res;
+void find(int s,int n) {
+    if(n==0) {
+        res.push_back(ans);
+        return;
+    }
+    for(int i=s; i<=n; i++) {
+        ans.push_back(i);
+        find(i,n-i);
+        ans.pop_back();
+    }
+}
+int main() {
+    int n;
+    cin>>n; 
+    find(1,n);
+    cout<<"[";
+    for(int i=0; i<res.size(); i++) 
+    {
+        cout<<"[";
+        for(int j=0; j<res[i].size(); j++) {
+            cout<<res[i][j];
+            if(j<res[i].size()-1) cout<<",";
+        }
+        cout<<"]";
+        if(i<res.size()-1) cout<<", ";
+    }
+    cout<<"]";
+}
