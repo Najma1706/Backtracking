@@ -1,0 +1,102 @@
+Problem Statement
+
+
+
+Rory is creating custom license plates for her car rental business. Each license plate uses a combination of letters, and she wants to generate all possible unique arrangements of the given letters in alphabetical order to choose the most appealing ones for her fleet.
+
+
+
+Given a string of characters (which may contain duplicates), Rory needs to generate all unique permutations in lexicographic order and display them line by line.
+
+
+
+Example
+
+
+
+Input:
+
+
+
+aab
+
+
+
+Explanation:
+
+
+
+The unique permutations of "aab" in lexicographic order are: "aab", "aba", "baa"
+Each permutation appears exactly once, even though there are duplicate 'a' characters in the input
+
+
+Output:
+
+
+
+aab
+
+aba
+
+baa
+
+Input format :
+The input consists of a single line containing a string 's' of lowercase English letters.
+
+Output format :
+The output must print all unique permutations of the string in lexicographic order, each on a separate line.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The given testcases fall under the following specification:
+
+1 ≤ length of s ≤ 8
+
+'s' contains only lowercase English letters ('a' to 'z').
+
+Sample test cases :
+Input 1 :
+abc
+Output 1 :
+abc
+acb
+bac
+bca
+cab
+cba
+Input 2 :
+fgg
+Output 2 :
+fgg
+gfg
+ggf
+
+#include <bits/stdc++.h>
+using namespace std;
+vector<string> res;
+void find(string s,int fi,int n) {
+    if(fi==n-1) {
+        res.push_back(s);
+        return;
+    }
+    set<char> used;
+    for(int i=fi; i<n; i++) {
+        if(used.count(s[i])) continue;
+        used.insert(s[i]);
+        
+        swap(s[fi],s[i]);
+        find(s,fi+1,n);
+        swap(s[fi],s[i]);
+    }
+}
+int main() {
+    string s;
+    cin>>s;
+    int n=s.size();
+    find(s,0,n);
+    sort(res.begin(),res.end());
+    for(string x:res) cout<<x<<endl;
+}
