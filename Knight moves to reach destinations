@@ -1,0 +1,50 @@
+In chess, each step of a knight comprises stepping by two squares horizontally and one square vertically, or by one square horizontally and two squares vertically. A knight making one step from location (0,0) of an infinite chess board would finish up at one of the following eight locations: (1,2), (−1,2), (1,−2), (−1,−2), (2,1), (−2,1), (2,−1), (−2,−1).
+Beginning from location (0,0), what is the minimum number of steps needed for a knight to get to some other arbitrary location (x,y)?
+
+Input format :
+The first line of input contains two integers x and y, representing the location of a knight on a chess board.
+
+Output format :
+The output displays a single integer m, representing the minimum number of steps needed for a knight to move from (0,0) to (x,y).
+
+Code constraints :
+1 ≤ x, y ≤ 8
+
+Sample test cases :
+Input 1 :
+1 2
+Output 1 :
+1
+Input 2 :
+2 4
+Output 2 :
+2
+
+#include <bits/stdc++.h>
+using namespace std;
+int dx[8]={-1,1,2,2,-2,-2,-1,1};
+int dy[8]={2,2,1,-1,1,-1,-2,-2};
+
+bool visited[17][17];
+int minsteps=100;
+void find(int x,int y,int tx,int ty,int steps){
+    if(x==tx && y==ty) {
+        minsteps=min(steps,minsteps);
+        return;
+    }
+    if(steps>minsteps || x>8 || y>8) return;
+    visited[x+8][y+8]=true;
+    for(int i=0; i<8; i++) {
+        int nx=dx[i]+x;
+        int ny=dy[i]+y;
+        if(!visited[nx+8][ny+8])
+        find(nx,ny,tx,ty,steps+1);
+    }
+    visited[x+8][y+8]=false;
+}
+int main() {
+    int x,y;
+    cin>>x>>y;
+    find(0,0,x,y,0);
+    cout<<minsteps;
+}
