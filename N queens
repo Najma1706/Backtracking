@@ -1,0 +1,116 @@
+Problem Statement
+
+
+
+You are given an N × N chessboard, and your task is to place N queens on the board in such a way that no two queens threaten each other. In chess, a queen can move horizontally, vertically, and diagonally. Therefore, no two queens should share the same row, column, or diagonal.
+
+
+
+Your goal is to find a valid arrangement of the queens on the chessboard where they do not threaten each other. If such an arrangement exists, display the positions of the queens on the board. If no valid arrangement exists, indicate that no solution can be found.
+
+Input format :
+The first line of input consists of a single integer n, representing the size of the chessboard (n x n).
+
+The second line contains an integer i, representing the row index (0-based) where the first queen is to be placed.
+
+The third line contains an integer j, representing the column index (0-based) where the first queen is to be placed.
+
+Output format :
+If there is at least one valid configuration that satisfies the N-Queens condition with the first queen placed at (i, j):
+
+Print each valid configuration as an n x n grid.
+
+Use 'Q' to represent a queen and '.' to represent an empty cell.
+
+Each row of the grid should be printed on a new line.
+
+Separate each configuration with a blank line.
+
+If no valid arrangement exists, print "No solution"
+
+
+
+Refer to the sample output for the formatting specification.
+
+Code constraints :
+1 ≤ N ≤ 10
+
+Each queen must be placed in a unique row and column.
+
+Sample test cases :
+Input 1 :
+4
+0
+1
+Output 1 :
+. Q . . 
+. . . Q 
+Q . . . 
+. . Q . 
+
+Input 2 :
+5
+0
+2
+Output 2 :
+. . Q . . 
+Q . . . . 
+. . . Q . 
+. Q . . . 
+. . . . Q 
+
+. . Q . . 
+. . . . Q 
+. Q . . . 
+. . . Q . 
+Q . . . . 
+
+#include <bits/stdc++.h>
+using namespace std;
+bool found=false;
+void print(vector<vector<char>> board,int n){
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<n; j++) {
+            cout<<board[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+}
+bool issafe(vector<vector<char>> board,int row,int col,int n){
+    for(int i=row-1; i>=0; i--) {
+        if(board[i][col]=='Q') return false;
+    }
+    for(int i=row-1,j=col-1; i>=0 && j>=0; i--,j--){
+     if(board[i][j]=='Q') return false;   
+    }
+    for(int i=row-1,j=col+1; i>=0 && j<n; i--,j++){
+        if(board[i][j]=='Q') return false;
+    }
+    return true;
+}
+void find(int row,int n,vector<vector<char>> &board){
+    if(row==n){
+        print(board,n);
+        found=true;
+        return;
+    }
+    for(int col=0; col<n; col++) {
+        if(issafe(board,row,col,n)) {
+            board[row][col]='Q';
+            find(row+1,n,board);
+            
+            board[row][col]='.';
+        }
+    }
+    
+}
+int main() {
+    int n,row,col;
+    cin>>n>>row>>col;
+    vector<vector<char>> board(n,vector<char>(n,'.'));
+    board[row][col]='Q';
+    find(row+1,n,board);
+    if(!found) cout<<"No solution";
+    
+}
